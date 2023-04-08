@@ -15,6 +15,8 @@ public class Resume : MonoBehaviour
 {
     [SerializeField]Button _resumeButton;
     [SerializeField]TMP_InputField _inputField;
+    [SerializeField]Note _note;
+    [SerializeField]Game _game;
     //[SerializeField]TextAsset _beginAgeLines;
     //private ResumeLines resumeLines;
     private Dictionary<string,IRequirement>_resumeRequirements = new Dictionary<string, IRequirement>();
@@ -55,7 +57,7 @@ public class Resume : MonoBehaviour
             {
                 if (requirementPair.Key.Contains(subtext))
                 {
-                    Debug.Log("A");
+                    _note.AddNote(subtext);
                 }
             }
         }
