@@ -8,4 +8,5 @@ public interface IRequirement
     public string ConvertToString();
     public bool CompareRequirement(CandidateStats candidateStats);
     public CandidateStats GetIdealCandidateStats(CandidateStats current);
+    public string GetResumeLine(CandidateStats candidateStats);
 }

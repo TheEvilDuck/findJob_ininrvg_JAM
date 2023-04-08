@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class SexRequirement : IRequirement
 {
+    private static List<string>maleNames = new List<string>
+    {
+        "Петр","Олег","Абрахам","Георг","Петр II","Кирилл","Богдан","Евгений","Гриша","Семен","Уил","Александр","Глеб","Владимир"
+    };
+    private static List<string>femaleNames = new List<string>
+    {
+        "Алина","Василина","Анастасия","Екатерина","Анна","Снежанна","Анжела","Виктория"
+    };
     bool _male = false;
     public bool CompareRequirement(CandidateStats candidateStats)
     {
@@ -30,5 +38,19 @@ public class SexRequirement : IRequirement
        CandidateStats goalStats = new CandidateStats(current);
        goalStats.isMale = _male;
        return goalStats;
+    }
+
+    public string GetResumeLine(CandidateStats candidateStats)
+    {
+        string result = $"Меня зовут {candidateStats.name}. ";
+        if (candidateStats.isMale)
+            return result+"Я мужчина. ";
+        return result+"Я женщина. ";
+    }
+    public static string GenerateName(bool isMale)
+    {
+        if (isMale)
+            return maleNames[UnityEngine.Random.Range(0,maleNames.Count)];
+        return femaleNames[UnityEngine.Random.Range(0,femaleNames.Count)];
     }
 }

@@ -30,5 +30,9 @@ public class Candidate : MonoBehaviour
     {
         candidateStats = new CandidateStats(requirements);
     }
+    public void RemoveCandidate()
+    {
+        Destroy(gameObject);
+    }
 
 }

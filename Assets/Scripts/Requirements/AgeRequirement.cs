@@ -61,4 +61,9 @@ public class AgeRequirement : IRequirement
                 goalCandidateStats.age = _maxAge;
         return goalCandidateStats;
     }
+
+    public string GetResumeLine(CandidateStats candidateStats)
+    {
+        return $"Мне {candidateStats.age} лет. ";
+    }
 }

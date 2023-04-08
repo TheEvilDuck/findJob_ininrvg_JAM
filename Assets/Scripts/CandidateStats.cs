@@ -7,23 +7,27 @@ public class CandidateStats
     public int age;
     public bool isMale;
     public int iq;
+    public string name;
     private float _chanceToLie = 1f;
     private float _chanceToForget = 0f;
-    private  List<IRequirement> _requirements;
+    public  List<IRequirement> requirements = new List<IRequirement>();
 
     public CandidateStats(List<IRequirement> requirements)
     {
-        _requirements = requirements;
+        this.requirements = requirements;
         age = UnityEngine.Random.Range(5,100);
         isMale = (UnityEngine.Random.Range(0,1f)>=0.5f);
         _chanceToLie = 1f;
         iq = UnityEngine.Random.Range(2,300);
+        name = SexRequirement.GenerateName(isMale);
     }
     public CandidateStats(CandidateStats toCopy)
     {
         age = toCopy.age;
         isMale = toCopy.isMale;
         iq = toCopy.iq;
+        requirements = toCopy.requirements;
+        name = toCopy.name;
     }
     public bool WillProvideAResume()
     {
@@ -43,9 +47,9 @@ public class CandidateStats
         {
             Debug.Log("Сча проверим, нужно ли врать....");
             CandidateStats copy = new CandidateStats(this);
-            if (_requirements!=null)
+            if (requirements!=null)
             {
-                foreach(IRequirement requirement in _requirements)
+                foreach(IRequirement requirement in requirements)
                 {
                     CandidateStats goal = requirement.GetIdealCandidateStats(this);
                     if (goal.age!=age)

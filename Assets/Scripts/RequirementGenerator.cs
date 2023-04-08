@@ -25,9 +25,15 @@ public class RequirementGenerator
             requirements.Add(sexRequirement);
         }
         int requirementsCount = UnityEngine.Random.Range(1,10);
-        for (int i = 0;i<requirementsCount;i++)
+        requirements.AddRange(GenerateRandomRequirements(requirementsCount));
+        return requirements;
+    }
+    public static List<IRequirement> GenerateRandomRequirements(int count)
+    {
+        List<IRequirement>requirements = new List<IRequirement>();
+        for (int i = 0;i<count;i++)
         {
-
+            
         }
 
         return requirements;

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class BodyParts
@@ -10,12 +11,16 @@ public class BodyParts
 }
 public class Game : MonoBehaviour
 {
+    [SerializeField]int _pointsForCalcelingCandidate = 10;
+    [SerializeField]int _pointsPerRequirement = 2;
+    [SerializeField]int _candidatsCount = 3;
     [SerializeField]BodyParts _bodyParts;
     [SerializeField]Visuals _visuals;
     private Candidate[] _candidats;
     private List<IRequirement>_requirements = new List<IRequirement>();
     private int _selectedRequirementIndex = -1;
     private int _currentCandidat = 0;
+    private int _points = 0;
     private void GenerateCandidats(int count)
     {
         _candidats = new Candidate[count];
@@ -32,13 +37,14 @@ public class Game : MonoBehaviour
                 bool requirementPassed = _requirements[_selectedRequirementIndex].CompareRequirement(candidate.candidateStats.GetLiedStats());
                 Debug.Log($"{_requirements[_selectedRequirementIndex].ConvertToString()}: {requirementPassed}");
             });
+            _candidats[i].gameObject.SetActive(false);
 
         }
     }
     private void Start() 
     {
         _requirements = RequirementGenerator.GenerateRequirements();
-        GenerateCandidats(1);
+        GenerateCandidats(_candidatsCount);
         for (int i = 0;i<_requirements.Count;i++)
         {
             _visuals.CreateSelector(_requirements[i],i).AddListener((bool value,int index)=>
@@ -49,11 +55,55 @@ public class Game : MonoBehaviour
                     _selectedRequirementIndex = -1;
             });
         }
+        CurrentCandidateInit();
+    }
+    private void GameOver()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    private void CurrentCandidateInit()
+    {
+        _candidats[_currentCandidat].gameObject.SetActive(true);
+        _visuals.UpdatePointsText(_points);
         bool candidatProvidedResume = _candidats[_currentCandidat].candidateStats.WillProvideAResume();
         _visuals.SetResumeVisibility(candidatProvidedResume);
         if (candidatProvidedResume)
         {
-            
+            _visuals.UpdateResume(_candidats[_currentCandidat].candidateStats.GetLiedStats());
         }
+    }
+    private void NextCandidate()
+    {
+        _candidats[_currentCandidat].RemoveCandidate();
+        _currentCandidat++;
+        if (_currentCandidat>=_candidatsCount)
+        {
+            GameOver();
+            return;
+        }
+        CurrentCandidateInit();
+    }
+    public void CandidateApproved()
+    {
+        foreach (IRequirement requirement in _requirements)
+        {
+            bool requirementPassed = requirement.CompareRequirement(_candidats[_currentCandidat].candidateStats);
+            if (requirementPassed)
+                _points+=_pointsPerRequirement;
+            else
+                _points-=_pointsPerRequirement;
+        }
+        NextCandidate();
+    }
+    public void CandidateCanceled()
+    {
+        _points-=_pointsForCalcelingCandidate;
+        foreach (IRequirement requirement in _requirements)
+        {
+            bool requirementPassed = requirement.CompareRequirement(_candidats[_currentCandidat].candidateStats);
+            if (requirementPassed)
+                _points-=_pointsPerRequirement;
+        }
+        NextCandidate();
     }
 }
