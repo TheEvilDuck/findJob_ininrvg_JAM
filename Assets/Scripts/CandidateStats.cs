@@ -14,22 +14,28 @@ public class CandidateStats
 
     public List<Degree>degrees = new List<Degree>();
 
-    public CandidateStats(List<IRequirement> requirements)
+    public CandidateStats()
     {
-        this.requirements = requirements;
         age = UnityEngine.Random.Range(5,100);
+        requirements.Add(new AgeRequirement());
         isMale = (UnityEngine.Random.Range(0,1f)>=0.5f);
-        _chanceToLie = 1f;
+        requirements.Add(new SexRequirement());
+        _chanceToLie = UnityEngine.Random.Range(0,1f);
         iq = UnityEngine.Random.Range(2,300);
         name = SexRequirement.GenerateName(isMale);
-        int degreesCount = UnityEngine.Random.Range(minInclusive: 0,10);
-        for (int i = 0;i<degreesCount;i++)
+        float degreeChance = UnityEngine.Random.Range(0,1f);
+        if (degreeChance>=0.5f)
         {
-            Degree degree = DegreeRequirement.GenerateDegree();
-            degree.ownerName = name;
-            degrees.Add(degree);
-            requirements.Add(new DegreeRequirement(degree));
+            int degreesCount = UnityEngine.Random.Range(minInclusive: 1,6);
+            for (int i = 0;i<degreesCount;i++)
+            {
+                Degree degree = DegreeRequirement.GenerateDegree();
+                degree.ownerName = name;
+                degrees.Add(degree);
+                requirements.Add(new DegreeRequirement(degree));
+            }
         }
+        
     }
     public CandidateStats(CandidateStats toCopy)
     {
@@ -52,9 +58,9 @@ public class CandidateStats
             return true;
         return false;
     }
-    public CandidateStats GetLiedStats()
+    public CandidateStats GetLiedStats(List<IRequirement> requirements)
     {
-        if (_chanceToLie>=0)
+        if (_chanceToLie>=0.5f)
         {
             Debug.Log("Сча проверим, нужно ли врать....");
             CandidateStats copy = new CandidateStats(this);

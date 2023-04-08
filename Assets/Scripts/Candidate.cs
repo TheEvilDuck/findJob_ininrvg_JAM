@@ -28,7 +28,7 @@ public class Candidate : MonoBehaviour
     }
     public void GenerateStats(List<IRequirement> requirements)
     {
-        candidateStats = new CandidateStats(requirements);
+        candidateStats = new CandidateStats();
     }
     public void RemoveCandidate()
     {

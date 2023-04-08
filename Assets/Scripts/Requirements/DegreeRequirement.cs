@@ -59,8 +59,6 @@ public class DegreeRequirement : IRequirement
             if (degree.placeName==_degree.placeName&&degree.degreeName==_degree.degreeName
             &&degree.ownerName==_degree.ownerName&&degree.year==_degree.year)
                 result+=$"{degree.degreeName} в {degree.placeName}({2023-degree.year} лет), ";
-            else
-            result = "";
         }
         return result;
     }

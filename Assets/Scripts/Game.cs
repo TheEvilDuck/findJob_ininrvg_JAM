@@ -12,7 +12,8 @@ public class BodyParts
 public class Game : MonoBehaviour
 {
     [SerializeField]int _pointsForCalcelingCandidate = 10;
-    [SerializeField]int _pointsPerRequirement = 2;
+    [SerializeField]int _pointsPerRequirementMiss = 4;
+    [SerializeField]int _pointsPerRequirementPass = 6;
     [SerializeField]int _candidatsCount = 3;
     [SerializeField]BodyParts _bodyParts;
     [SerializeField]Visuals _visuals;
@@ -34,7 +35,7 @@ public class Game : MonoBehaviour
             {
                 if (_selectedRequirementIndex<0)
                     return;
-                bool requirementPassed = _requirements[_selectedRequirementIndex].CompareRequirement(candidate.candidateStats.GetLiedStats());
+                bool requirementPassed = _requirements[_selectedRequirementIndex].CompareRequirement(candidate.candidateStats.GetLiedStats(_requirements));
                 Debug.Log($"{_requirements[_selectedRequirementIndex].ConvertToString()}: {requirementPassed}");
             });
             _candidats[i].gameObject.SetActive(false);
@@ -69,7 +70,7 @@ public class Game : MonoBehaviour
         _visuals.SetResumeVisibility(candidatProvidedResume);
         if (candidatProvidedResume)
         {
-            _visuals.UpdateResume(_candidats[_currentCandidat].candidateStats.GetLiedStats());
+            _visuals.UpdateResume(_candidats[_currentCandidat].candidateStats.GetLiedStats(_requirements));
         }
     }
     private void NextCandidate()
@@ -89,9 +90,9 @@ public class Game : MonoBehaviour
         {
             bool requirementPassed = requirement.CompareRequirement(_candidats[_currentCandidat].candidateStats);
             if (requirementPassed)
-                _points+=_pointsPerRequirement;
+                _points+=_pointsPerRequirementMiss;
             else
-                _points-=_pointsPerRequirement;
+                _points-=_pointsPerRequirementPass;
         }
         NextCandidate();
     }
@@ -102,7 +103,9 @@ public class Game : MonoBehaviour
         {
             bool requirementPassed = requirement.CompareRequirement(_candidats[_currentCandidat].candidateStats);
             if (requirementPassed)
-                _points-=_pointsPerRequirement;
+                _points-=_pointsPerRequirementMiss;
+            else
+                _points+=_pointsPerRequirementPass;
         }
         NextCandidate();
     }
