@@ -50,4 +50,15 @@ public class AgeRequirement : IRequirement
                 _maxAge++;
         }
     }
+
+    public CandidateStats GetIdealCandidateStats(CandidateStats current)
+    {
+        CandidateStats goalCandidateStats = new CandidateStats(current);
+        if (current.age<_minAge)
+            goalCandidateStats.age = _minAge;
+        if (_hasFloor)
+            if (current.age>_maxAge)
+                goalCandidateStats.age = _maxAge;
+        return goalCandidateStats;
+    }
 }
