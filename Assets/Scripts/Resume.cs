@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Events;
 
 public class Resume : MonoBehaviour
 {
     [SerializeField]Button _resumeButton;
-    [SerializeField]TMPro.TMP_InputField _inputField;
+    [SerializeField]TMP_InputField _inputField;
+    
+
     public void UpdateResume(CandidateStats candidateStats)
     {
         
@@ -27,7 +30,12 @@ public class Resume : MonoBehaviour
 
     public void OnTextSelected(string text)
     {
-        Debug.Log(_inputField.caretPosition);
-        Debug.Log(_inputField.caretWidth);
+        int textEnd = _inputField.caretPosition;
+        int textEnd2 = _inputField.selectionStringAnchorPosition;
+        string subtext = text.Substring(Mathf.Min(textEnd,textEnd2),Mathf.Abs(textEnd-textEnd2));
+        if (subtext.Length>0)
+        {
+
+        }
     }
 }
