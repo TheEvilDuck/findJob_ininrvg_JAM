@@ -12,6 +12,8 @@ public class CandidateStats
     private float _chanceToForget = 0f;
     public  List<IRequirement> requirements = new List<IRequirement>();
 
+    public List<Degree>degrees = new List<Degree>();
+
     public CandidateStats(List<IRequirement> requirements)
     {
         this.requirements = requirements;
@@ -20,6 +22,14 @@ public class CandidateStats
         _chanceToLie = 1f;
         iq = UnityEngine.Random.Range(2,300);
         name = SexRequirement.GenerateName(isMale);
+        int degreesCount = UnityEngine.Random.Range(minInclusive: 0,10);
+        for (int i = 0;i<degreesCount;i++)
+        {
+            Degree degree = DegreeRequirement.GenerateDegree();
+            degree.ownerName = name;
+            degrees.Add(degree);
+            requirements.Add(new DegreeRequirement(degree));
+        }
     }
     public CandidateStats(CandidateStats toCopy)
     {
@@ -28,6 +38,7 @@ public class CandidateStats
         iq = toCopy.iq;
         requirements = toCopy.requirements;
         name = toCopy.name;
+        degrees = toCopy.degrees;
     }
     public bool WillProvideAResume()
     {
