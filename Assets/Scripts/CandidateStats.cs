@@ -35,6 +35,7 @@ public class CandidateStats
                 requirements.Add(new DegreeRequirement(degree));
             }
         }
+        requirements.AddRange(RequirementGenerator.GenerateRandomRequirements(UnityEngine.Random.Range(0,5)));
         
     }
     public CandidateStats(CandidateStats toCopy)

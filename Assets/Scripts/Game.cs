@@ -29,7 +29,7 @@ public class Game : MonoBehaviour
         {
             GameObject obj = new GameObject();
             _candidats[i] = obj.AddComponent<Candidate>();
-            _candidats[i].GenerateStats(_requirements);
+            _candidats[i].GenerateStats();
             _candidats[i].GenerateVisuals(_bodyParts, obj.transform);
             _candidats[i].candidateClicked.AddListener((Candidate candidate)=>
             {
@@ -90,9 +90,9 @@ public class Game : MonoBehaviour
         {
             bool requirementPassed = requirement.CompareRequirement(_candidats[_currentCandidat].candidateStats);
             if (requirementPassed)
-                _points+=_pointsPerRequirementMiss;
+                _points+=_pointsPerRequirementPass;
             else
-                _points-=_pointsPerRequirementPass;
+                _points-=_pointsPerRequirementMiss;
         }
         NextCandidate();
     }
@@ -103,9 +103,9 @@ public class Game : MonoBehaviour
         {
             bool requirementPassed = requirement.CompareRequirement(_candidats[_currentCandidat].candidateStats);
             if (requirementPassed)
-                _points-=_pointsPerRequirementMiss;
+                _points-=_pointsPerRequirementPass;
             else
-                _points+=_pointsPerRequirementPass;
+                _points+=_pointsPerRequirementMiss;
         }
         NextCandidate();
     }

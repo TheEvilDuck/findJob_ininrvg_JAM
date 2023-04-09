@@ -34,14 +34,20 @@ public class RequirementGenerator
                 requirements.Add(degreeRequirement);
             }
         }
+        requirements.AddRange(GenerateRandomRequirements(UnityEngine.Random.Range(1,3)));
         return requirements;
     }
     public static List<IRequirement> GenerateRandomRequirements(int count)
     {
         List<IRequirement>requirements = new List<IRequirement>();
-        for (int i = 0;i<count;i++)
+        int countLeft = count;
+        int softSkillsCount = UnityEngine.Random.Range(0,count);
+        countLeft-=softSkillsCount;
+        for (int i = 0;i<softSkillsCount;i++)
         {
-            
+            SoftSkillsRequirement softSkillsRequirement = new SoftSkillsRequirement();
+            softSkillsRequirement.GenerateRequirement();
+            requirements.Add(softSkillsRequirement);
         }
 
         return requirements;

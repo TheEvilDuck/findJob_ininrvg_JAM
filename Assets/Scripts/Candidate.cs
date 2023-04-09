@@ -26,7 +26,7 @@ public class Candidate : MonoBehaviour
     private void OnMouseDown() {
         candidateClicked?.Invoke(this);
     }
-    public void GenerateStats(List<IRequirement> requirements)
+    public void GenerateStats()
     {
         candidateStats = new CandidateStats();
     }
