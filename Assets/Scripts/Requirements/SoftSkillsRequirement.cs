@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[System.Serializable]
 public class SoftSkillsRequirement : IRequirement
 {
     string _softSkill;
@@ -31,7 +31,7 @@ public class SoftSkillsRequirement : IRequirement
 
     public CandidateStats GetIdealCandidateStats(CandidateStats current)
     {
-        CandidateStats goalStats = new CandidateStats(current);
+        CandidateStats goalStats = CandidateStats.DeepCopy(current);
         goalStats.requirements.Add(this);
         return goalStats;
     }

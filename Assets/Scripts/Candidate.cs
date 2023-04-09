@@ -7,11 +7,7 @@ using UnityEngine.Events;
 public class Candidate : MonoBehaviour
 {
     public UnityEvent<Candidate>candidateClicked;
-    public CandidateStats candidateStats
-    {
-        get;
-        private set;
-    }
+    public CandidateStats candidateStats;
     
     private void Awake() 
     {
@@ -29,6 +25,28 @@ public class Candidate : MonoBehaviour
     public void GenerateStats()
     {
         candidateStats = new CandidateStats();
+        candidateStats.age = UnityEngine.Random.Range(5,100);
+        candidateStats.requirements = new List<IRequirement>();
+        candidateStats.requirements.Add(new AgeRequirement());
+        candidateStats.isMale = (UnityEngine.Random.Range(0,1f)>=0.5f);
+        candidateStats.requirements.Add(new SexRequirement());
+        candidateStats.chanceToLie = UnityEngine.Random.Range(0,1f);
+        candidateStats.iq = UnityEngine.Random.Range(2,300);
+        candidateStats.name = SexRequirement.GenerateName(candidateStats.isMale);
+        float degreeChance = UnityEngine.Random.Range(0,1f);
+        candidateStats.degrees = new List<Degree>();
+        if (degreeChance>=0.5f)
+        {
+            int degreesCount = UnityEngine.Random.Range(minInclusive: 1,6);
+            for (int i = 0;i<degreesCount;i++)
+            {
+                Degree degree = DegreeRequirement.GenerateDegree();
+                degree.ownerName = name;
+                candidateStats.degrees.Add(degree);
+                candidateStats.requirements.Add(new DegreeRequirement(degree));
+            }
+        }
+       candidateStats.requirements.AddRange(RequirementGenerator.GenerateRandomRequirements(UnityEngine.Random.Range(0,5)));
     }
     public void RemoveCandidate()
     {

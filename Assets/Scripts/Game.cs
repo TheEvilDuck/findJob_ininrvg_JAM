@@ -95,11 +95,16 @@ public class Game : MonoBehaviour
         {
             bool requirementPassed = requirement.CompareRequirement(_candidats[_currentCandidat].candidateStats);
             if (requirementPassed)
+            {
                 _points+=_pointsPerRequirementPass;
+                Debug.Log($"Проверяем на соответствие {requirement.ConvertToString()}, у кандидата {requirementPassed}, поэтому +{_pointsPerRequirementPass}");
+            }
             else
+            {
                 _points-=_pointsPerRequirementMiss;
+                Debug.Log($"Проверяем на соответствие {requirement.ConvertToString()}, у кандидата {requirementPassed}, поэтому -{_pointsPerRequirementMiss}");
+            }
         }
-        Debug.Log($"У кандидата было {_candidats[_currentCandidat].candidateStats.requirements.Count} требований");
         NextCandidate();
     }
     public void CandidateCanceled()

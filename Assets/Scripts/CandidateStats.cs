@@ -1,56 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
-public class CandidateStats
+
+[System.Serializable]
+public struct CandidateStats
 {
     public int age;
     public bool isMale;
     public int iq;
     public string name;
-    private float _chanceToLie = 1f;
-    private float _chanceToForget = 0f;
-    public  List<IRequirement> requirements = new List<IRequirement>();
+    public float chanceToLie;
+    public float chanceToForget;
+    public  List<IRequirement> requirements;
 
-    public List<Degree>degrees = new List<Degree>();
+    public List<Degree>degrees;
 
-    public CandidateStats()
+    public static CandidateStats DeepCopy(CandidateStats candidateStats)
     {
-        age = UnityEngine.Random.Range(5,100);
-        requirements.Add(new AgeRequirement());
-        isMale = (UnityEngine.Random.Range(0,1f)>=0.5f);
-        requirements.Add(new SexRequirement());
-        _chanceToLie = UnityEngine.Random.Range(0,1f);
-        iq = UnityEngine.Random.Range(2,300);
-        name = SexRequirement.GenerateName(isMale);
-        float degreeChance = UnityEngine.Random.Range(0,1f);
-        if (degreeChance>=0.5f)
+        BinaryFormatter s = new BinaryFormatter();
+        using (MemoryStream ms = new MemoryStream())
         {
-            int degreesCount = UnityEngine.Random.Range(minInclusive: 1,6);
-            for (int i = 0;i<degreesCount;i++)
-            {
-                Degree degree = DegreeRequirement.GenerateDegree();
-                degree.ownerName = name;
-                degrees.Add(degree);
-                requirements.Add(new DegreeRequirement(degree));
-            }
+            s.Serialize(ms, candidateStats);
+            ms.Position = 0;
+            CandidateStats t = (CandidateStats)s.Deserialize(ms);
+
+            return t;
         }
-        requirements.AddRange(RequirementGenerator.GenerateRandomRequirements(UnityEngine.Random.Range(0,5)));
-        
-    }
-    public CandidateStats(CandidateStats toCopy)
-    {
-        age = toCopy.age;
-        isMale = toCopy.isMale;
-        iq = toCopy.iq;
-        requirements = toCopy.requirements;
-        name = toCopy.name;
-        degrees = toCopy.degrees;
     }
     public bool WillProvideAResume()
     {
         float chance = 1f;
-        chance*=(1f-_chanceToForget);
+        chance*=(1f-chanceToForget);
         if (iq<50)
             chance*=0.5f;
         if (iq>=50)
@@ -61,10 +44,10 @@ public class CandidateStats
     }
     public CandidateStats GetLiedStats(List<IRequirement> requirements)
     {
-        if (_chanceToLie>=0.5f)
+        if (chanceToLie>=0.5f)
         {
             Debug.Log("Сча проверим, нужно ли врать....");
-            CandidateStats copy = new CandidateStats(this);
+            CandidateStats copy = DeepCopy(this);
             if (requirements!=null)
             {
                 foreach(IRequirement requirement in requirements)
@@ -72,7 +55,7 @@ public class CandidateStats
                     if (!requirement.CompareRequirement(copy))
                     {
                         Debug.Log($"Врет о {requirement.ConvertToString()}, на самом деле {requirement.CompareRequirement(copy)}");
-                        copy = requirement.GetIdealCandidateStats(copy);
+                        copy = DeepCopy(requirement.GetIdealCandidateStats(copy));
                     }
                 }
             }

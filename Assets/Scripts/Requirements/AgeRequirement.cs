@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class AgeRequirement : IRequirement
 {
     int _minAge;
@@ -53,7 +54,7 @@ public class AgeRequirement : IRequirement
 
     public CandidateStats GetIdealCandidateStats(CandidateStats current)
     {
-        CandidateStats goalCandidateStats = new CandidateStats(current);
+        CandidateStats goalCandidateStats = CandidateStats.DeepCopy(current);
         if (current.age<_minAge)
             goalCandidateStats.age = _minAge;
         if (_hasFloor)

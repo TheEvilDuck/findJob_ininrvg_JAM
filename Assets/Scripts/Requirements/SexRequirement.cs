@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class SexRequirement : IRequirement
 {
     private static List<string>maleNames = new List<string>
@@ -35,7 +36,7 @@ public class SexRequirement : IRequirement
 
     public CandidateStats GetIdealCandidateStats(CandidateStats current)
     {
-       CandidateStats goalStats = new CandidateStats(current);
+       CandidateStats goalStats = CandidateStats.DeepCopy(current);
        goalStats.isMale = _male;
        return goalStats;
     }

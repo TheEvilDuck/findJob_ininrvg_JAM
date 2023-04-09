@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Degree
 {
     public string degreeName;
@@ -9,6 +10,7 @@ public class Degree
     public string ownerName;
     public int year;
 }
+[System.Serializable]
 public class DegreeRequirement : IRequirement
 {
     Degree _degree = new Degree();
@@ -44,10 +46,12 @@ public class DegreeRequirement : IRequirement
 
     public CandidateStats GetIdealCandidateStats(CandidateStats current)
     {
-        CandidateStats goalStats = new CandidateStats(current);
+        CandidateStats goalStats = CandidateStats.DeepCopy(current);
         Degree degree = _degree;
         degree.ownerName = goalStats.name;
         goalStats.degrees.Add(degree);
+        DegreeRequirement degreeRequirement = new DegreeRequirement(degree);
+        goalStats.requirements.Add(degreeRequirement);
         return goalStats;
     }
 
