@@ -8,6 +8,7 @@ public class BodyParts
 {
     [SerializeField]public CandidatePart[] bodies;
     [SerializeField]public CandidatePart[] heads;
+    [SerializeField]public CandidatePart[] eyes;
 }
 [RequireComponent(typeof(SceneLoader))]
 public class Game : MonoBehaviour

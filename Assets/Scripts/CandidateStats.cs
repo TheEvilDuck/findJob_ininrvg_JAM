@@ -69,16 +69,10 @@ public class CandidateStats
             {
                 foreach(IRequirement requirement in requirements)
                 {
-                    CandidateStats goal = requirement.GetIdealCandidateStats(this);
-                    if (goal.age!=age)
+                    if (!requirement.CompareRequirement(copy))
                     {
-                        Debug.Log($"Возраст не совпадает ({goal.age}), врет, реальный: {age}");
-                        copy.age = goal.age;
-                    }
-                    if (goal.isMale!=isMale)
-                    {
-                        copy.isMale = goal.isMale;
-                        Debug.Log(message: $"Пол не совпадает (мужской:{goal.isMale}), врет, реальный пол мужской: {isMale}");
+                        Debug.Log($"Врет о {requirement.ConvertToString()}, на самом деле {requirement.CompareRequirement(copy)}");
+                        copy = requirement.GetIdealCandidateStats(copy);
                     }
                 }
             }
