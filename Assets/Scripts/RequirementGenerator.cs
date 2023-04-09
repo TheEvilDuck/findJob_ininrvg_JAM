@@ -37,11 +37,12 @@ public class RequirementGenerator
         requirements.AddRange(GenerateRandomRequirements(UnityEngine.Random.Range(1,3)));
         return requirements;
     }
+    
     public static List<IRequirement> GenerateRandomRequirements(int count)
     {
         List<IRequirement>requirements = new List<IRequirement>();
         int countLeft = count;
-        int softSkillsCount = UnityEngine.Random.Range(0,count);
+        int softSkillsCount = UnityEngine.Random.Range(1,count);
         countLeft-=softSkillsCount;
         for (int i = 0;i<softSkillsCount;i++)
         {

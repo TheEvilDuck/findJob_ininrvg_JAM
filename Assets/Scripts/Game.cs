@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 
 [System.Serializable]
@@ -10,6 +9,7 @@ public class BodyParts
     [SerializeField]public CandidatePart[] bodies;
     [SerializeField]public CandidatePart[] heads;
 }
+[RequireComponent(typeof(SceneLoader))]
 public class Game : MonoBehaviour
 {
     [SerializeField]int _pointsForCalcelingCandidate = 10;
@@ -24,6 +24,7 @@ public class Game : MonoBehaviour
     private int _currentCandidat = 0;
     private int _points = 0;
     public UnityEvent candidateChanged = new UnityEvent();
+    private IRequirement _noteRequirement;
     private void GenerateCandidats(int count)
     {
         _candidats = new Candidate[count];
@@ -62,7 +63,7 @@ public class Game : MonoBehaviour
     }
     private void GameOver()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        GetComponent<SceneLoader>().LoadScene();
     }
     private void CurrentCandidateInit()
     {
@@ -111,6 +112,13 @@ public class Game : MonoBehaviour
                 _points+=_pointsPerRequirementMiss;
         }
         NextCandidate();
+    }
+    public void OnNoteSelected(bool selected,IRequirement requirement)
+    {
+        if (selected)
+            _noteRequirement = requirement;
+        else
+            _noteRequirement = null;
     }
     public void OnCandidateAskedAbout(IRequirement requirement)
     {

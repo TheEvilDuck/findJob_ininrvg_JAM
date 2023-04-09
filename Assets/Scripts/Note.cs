@@ -44,7 +44,10 @@ public class Note : MonoBehaviour
     }
     public void OnObjectSelected(bool selected,int index)
     {
-
+        if (index>=_requirementsNotes.Count)
+            return;
+        IRequirement requirement = _requirementsNotes[index];
+        _game.OnNoteSelected(selected,requirement);
     }
     public void OnCandidateChanged()
     {

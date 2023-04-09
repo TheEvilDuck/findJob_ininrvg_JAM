@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Visuals : MonoBehaviour
 {
@@ -31,5 +32,9 @@ public class Visuals : MonoBehaviour
     public void UpdatePointsText(int points)
     {
         _pointsText.text = points.ToString();
+    }
+    public void ReloadScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

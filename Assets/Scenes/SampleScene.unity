@@ -936,6 +936,7 @@ GameObject:
   - component: {fileID: 310295466}
   - component: {fileID: 310295465}
   - component: {fileID: 310295467}
+  - component: {fileID: 310295468}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -955,9 +956,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1e5d98d5b4bdb140907b04a2366604c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pointsForCalcelingCandidate: 1
-  _pointsPerRequirementMiss: 2
-  _pointsPerRequirementPass: 1
+  _pointsForCalcelingCandidate: 2
+  _pointsPerRequirementMiss: 3
+  _pointsPerRequirementPass: 2
   _candidatsCount: 3
   _bodyParts:
     bodies:
@@ -965,6 +966,9 @@ MonoBehaviour:
     heads:
     - {fileID: 8583120592198139007, guid: e0194180937cb3441928544a9b1b8cef, type: 3}
   _visuals: {fileID: 310295467}
+  candidateChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &310295466
 Transform:
   m_ObjectHideFlags: 0
@@ -998,6 +1002,19 @@ MonoBehaviour:
   _inventory: {fileID: 1188257232}
   _resumeButton: {fileID: 2011703885}
   _pointsText: {fileID: 397171}
+--- !u!114 &310295468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 310295464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a61e0561b7b4a1a4da8a06ce487be28a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scene: RestartScene
 --- !u!1 &360689416
 GameObject:
   m_ObjectHideFlags: 0
