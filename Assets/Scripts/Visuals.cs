@@ -25,9 +25,9 @@ public class Visuals : MonoBehaviour
     {
         _resumeButton.SetActive(value);
     }
-    public void UpdateResume(CandidateStats candidateStats)
+    public void UpdateResume(CandidateStats candidateStats,string positionName)
     {
-        _resume.UpdateResume(candidateStats);
+        _resume.UpdateResume(candidateStats,positionName);
     }
     public void UpdatePointsText(int points)
     {

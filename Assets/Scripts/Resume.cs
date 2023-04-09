@@ -21,16 +21,22 @@ public class Resume : MonoBehaviour
     //private ResumeLines resumeLines;
     private Dictionary<string,IRequirement>_resumeRequirements = new Dictionary<string, IRequirement>();
 
-    public void UpdateResume(CandidateStats candidateStats)
+    public void UpdateResume(CandidateStats candidateStats,string positionName)
     {
         //resumeLines = new ResumeLines();
         //resumeLines = JsonUtility.FromJson<ResumeLines>(_beginAgeLines.text);
         _inputField.text = "                              Резюме\n";
+        int index = 0;
+        int indexToAddPosition = UnityEngine.Random.Range(0,candidateStats.requirements.Count);
         foreach (IRequirement requirement in candidateStats.requirements)
         {
             string resumeLine = requirement.GetResumeLine(candidateStats);
             _resumeRequirements.TryAdd(resumeLine,requirement);
             _inputField.text+=resumeLine;
+            if (index==indexToAddPosition)
+                _inputField.text+=$"Я очень хочу быть настоящим {positionName}. ";
+            index++;
+
         }
     }
     private void OnEnable() 

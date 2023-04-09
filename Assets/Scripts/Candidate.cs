@@ -25,10 +25,10 @@ public class Candidate : MonoBehaviour
     public void GenerateStats()
     {
         candidateStats = new CandidateStats();
-        candidateStats.age = UnityEngine.Random.Range(5,100);
         candidateStats.requirements = new List<IRequirement>();
-        candidateStats.requirements.Add(new AgeRequirement());
         candidateStats.isMale = (UnityEngine.Random.Range(0,1f)>=0.5f);
+        candidateStats.age = UnityEngine.Random.Range(5,100);
+        candidateStats.requirements.Add(new AgeRequirement());
         candidateStats.requirements.Add(new SexRequirement());
         candidateStats.chanceToLie = UnityEngine.Random.Range(0,1f);
         candidateStats.iq = UnityEngine.Random.Range(2,300);

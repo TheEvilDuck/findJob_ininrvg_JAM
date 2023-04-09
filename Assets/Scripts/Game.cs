@@ -26,6 +26,13 @@ public class Game : MonoBehaviour
     private int _points = 0;
     public UnityEvent candidateChanged = new UnityEvent();
     private IRequirement _noteRequirement;
+    private string _positionName;
+    private List<string>_positionNames = new List<string>
+    {
+        "Повар","Слесарь","Автомеханик","Врач","Эксперт на программу мужское-женское","Пекарь","Велосипедист","Курьер","Водитель",
+        "Священник","Смотритель клуба","Администратор","Программист","Unity разработчик","QA инженер","Front-end разработчик","Охранник",
+        "Президент","Продавец в секс-шопе","Администратор-кассир"
+    };
     private void GenerateCandidats(int count)
     {
         _candidats = new Candidate[count];
@@ -48,6 +55,7 @@ public class Game : MonoBehaviour
     }
     private void Start() 
     {
+        _positionName = _positionNames[UnityEngine.Random.Range(0,_positionNames.Count)];
         _requirements = RequirementGenerator.GenerateRequirements();
         GenerateCandidats(_candidatsCount);
         for (int i = 0;i<_requirements.Count;i++)
@@ -75,7 +83,7 @@ public class Game : MonoBehaviour
         _visuals.SetResumeVisibility(candidatProvidedResume);
         if (candidatProvidedResume)
         {
-            _visuals.UpdateResume(_candidats[_currentCandidat].candidateStats.GetLiedStats(_requirements));
+            _visuals.UpdateResume(_candidats[_currentCandidat].candidateStats.GetLiedStats(_requirements),_positionName);
         }
     }
     private void NextCandidate()
