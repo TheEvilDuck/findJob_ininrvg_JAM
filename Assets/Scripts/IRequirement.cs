@@ -9,4 +9,5 @@ public interface IRequirement
     public bool CompareRequirement(CandidateStats candidateStats);
     public CandidateStats GetIdealCandidateStats(CandidateStats current);
     public string GetResumeLine(CandidateStats candidateStats);
+    public bool GenerateDocument(Documents documents, CandidateStats candidateStats);
 }

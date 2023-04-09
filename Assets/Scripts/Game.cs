@@ -19,6 +19,7 @@ public class Game : MonoBehaviour
     [SerializeField]int _candidatsCount = 3;
     [SerializeField]BodyParts _bodyParts;
     [SerializeField]Visuals _visuals;
+    [SerializeField]Documents _documents;
     [SerializeField]Note _note;
     private Candidate[] _candidats;
     private List<IRequirement>_requirements = new List<IRequirement>();
@@ -29,7 +30,7 @@ public class Game : MonoBehaviour
     private string _positionName;
     private bool _askMode;
     public bool candidateHovered;
-    private IRequirement _askedReauirement;
+    private IRequirement _askedRequirement;
     private List<string>_positionNames = new List<string>
     {
         "Повар","Слесарь","Автомеханик","Врач","Эксперт на программу мужское-женское","Пекарь","Велосипедист","Курьер","Водитель",
@@ -57,9 +58,10 @@ public class Game : MonoBehaviour
                     _note.AddNote(stringForNote,_requirements[_selectedRequirementIndex]);
                 }else
                 {
-                    if (_askedReauirement!=null)
+                    if (_askedRequirement!=null)
                     {
-                        
+                        if (!_askedRequirement.GenerateDocument(_documents,candidate.candidateStats))
+                            Debug.Log("Can't provide document");
                     }
                 }
             });
@@ -170,12 +172,12 @@ public class Game : MonoBehaviour
     public void OnAskMode(IRequirement requirement)
     {
         _askMode = true;
-        _askedReauirement = requirement;
+        _askedRequirement = requirement;
     }
     public void ExitAskMode()
     {
         _askMode =false;
-        _askedReauirement = null;
+        _askedRequirement = null;
     }
     public void OnCandidateHovered(bool hovered)
     {

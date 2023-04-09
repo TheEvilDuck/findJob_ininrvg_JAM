@@ -26,6 +26,11 @@ public class SoftSkillsRequirement : IRequirement
         return _softSkill;
     }
 
+    public bool GenerateDocument(Documents documents, CandidateStats candidateStats)
+    {
+        throw new System.NotImplementedException();
+    }
+
     public void GenerateRequirement()
     {
         _softSkill = _softSkills[UnityEngine.Random.Range(0,_softSkills.Count)];

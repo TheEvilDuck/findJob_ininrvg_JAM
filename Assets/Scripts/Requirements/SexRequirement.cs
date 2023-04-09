@@ -54,4 +54,12 @@ public class SexRequirement : IRequirement
             return maleNames[UnityEngine.Random.Range(0,maleNames.Count)];
         return femaleNames[UnityEngine.Random.Range(0,femaleNames.Count)];
     }
+
+    public bool GenerateDocument(Documents documents, CandidateStats candidateStats)
+    {
+        if (candidateStats.chanceToForget<=0.8f)
+            return false;
+        
+        return documents.GeneratePassport(candidateStats);
+    }
 }

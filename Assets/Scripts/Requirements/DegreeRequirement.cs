@@ -83,6 +83,22 @@ public class DegreeRequirement : IRequirement
         degree.degreeName = degreeNames[UnityEngine.Random.Range(0,degreeNames.Count)];
         return degree;
     }
+
+    public bool GenerateDocument(Documents documents, CandidateStats candidateStats)
+    {
+        if (candidateStats.chanceToForget<=0.1f)
+            return false;
+        
+        if (!CompareRequirement(candidateStats))
+            return false;
+        Degree degree = new Degree();
+        degree.degreeName = _degree.degreeName;
+        degree.placeName = _degree.placeName;
+        degree.year = _degree.year;
+        degree.ownerName = candidateStats.name;
+        return documents.GenerateDegreeCertificate(degree);
+    }
+
     public DegreeRequirement(Degree degree)
     {
         _degree = degree;

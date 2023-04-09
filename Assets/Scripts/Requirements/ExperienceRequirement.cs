@@ -17,6 +17,11 @@ public class ExperienceRequirement : IRequirement
         throw new System.NotImplementedException();
     }
 
+    public bool GenerateDocument(Documents documents, CandidateStats candidateStats)
+    {
+        throw new System.NotImplementedException();
+    }
+
     public void GenerateRequirement()
     {
         throw new System.NotImplementedException();

@@ -32,7 +32,8 @@ public class Candidate : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
         candidateStats.age = UnityEngine.Random.Range(5,100);
         candidateStats.requirements.Add(new AgeRequirement());
         candidateStats.requirements.Add(new SexRequirement());
-        candidateStats.chanceToLie = UnityEngine.Random.Range(0,1f);
+        candidateStats.chanceToLie = UnityEngine.Random.Range(0f,1f);
+        candidateStats.chanceToForget = UnityEngine.Random.Range(0f,1f);
         candidateStats.iq = UnityEngine.Random.Range(2,300);
         candidateStats.name = SexRequirement.GenerateName(candidateStats.isMale);
         candidateStats.patience = UnityEngine.Random.Range(2,10);

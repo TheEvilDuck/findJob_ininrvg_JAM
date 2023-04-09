@@ -36,6 +36,14 @@ public class AgeRequirement : IRequirement
         return result;
     }
 
+    public bool GenerateDocument(Documents documents, CandidateStats candidateStats)
+    {
+        if (candidateStats.chanceToForget<=0.2f)
+            return false;
+        
+        return documents.GeneratePassport(candidateStats);
+    }
+
     public void GenerateRequirement()
     {
         _minAge = UnityEngine.Random.Range(14,99);
