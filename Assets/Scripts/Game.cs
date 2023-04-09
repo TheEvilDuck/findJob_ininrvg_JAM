@@ -47,7 +47,9 @@ public class Game : MonoBehaviour
                 if (_selectedRequirementIndex<0)
                     return;
                 _candidats[_currentCandidat].candidateStats.patience-=1;
-                _note.AddNote(_requirements[_selectedRequirementIndex].ConvertToString(),_requirements[_selectedRequirementIndex]);
+                IRequirement currentRequirement = _requirements[_selectedRequirementIndex];
+                string stringForNote = currentRequirement.GetResumeLine(_candidats[_currentCandidat].candidateStats.GetLiedStats(_requirements));
+                _note.AddNote(stringForNote,_requirements[_selectedRequirementIndex]);
             });
             _candidats[i].gameObject.SetActive(false);
 
