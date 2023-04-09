@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 [System.Serializable]
 public class BodyParts
@@ -22,6 +23,7 @@ public class Game : MonoBehaviour
     private int _selectedRequirementIndex = -1;
     private int _currentCandidat = 0;
     private int _points = 0;
+    public UnityEvent candidateChanged = new UnityEvent();
     private void GenerateCandidats(int count)
     {
         _candidats = new Candidate[count];
@@ -64,6 +66,7 @@ public class Game : MonoBehaviour
     }
     private void CurrentCandidateInit()
     {
+        candidateChanged?.Invoke();
         _candidats[_currentCandidat].gameObject.SetActive(true);
         _visuals.UpdatePointsText(_points);
         bool candidatProvidedResume = _candidats[_currentCandidat].candidateStats.WillProvideAResume();
@@ -108,5 +111,9 @@ public class Game : MonoBehaviour
                 _points+=_pointsPerRequirementMiss;
         }
         NextCandidate();
+    }
+    public void OnCandidateAskedAbout(IRequirement requirement)
+    {
+
     }
 }

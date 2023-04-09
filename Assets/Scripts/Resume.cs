@@ -57,7 +57,7 @@ public class Resume : MonoBehaviour
             {
                 if (requirementPair.Key.Contains(subtext))
                 {
-                    _note.AddNote(subtext);
+                    _note.AddNote(subtext,requirementPair.Value);
                 }
             }
         }

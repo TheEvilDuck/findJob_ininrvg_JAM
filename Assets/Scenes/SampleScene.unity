@@ -1295,6 +1295,7 @@ MonoBehaviour:
   _noteButton: {fileID: 1796799351}
   _content: {fileID: 1182451445}
   _notePrefab: {fileID: 5510755764629548780, guid: f9d41f6f323bd0848918a682d0894845, type: 3}
+  _game: {fileID: 310295465}
 --- !u!114 &716661751
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ public class UISelector : MonoBehaviour
     [SerializeField]TextMeshProUGUI _text;
     [SerializeField]Button _button;
     private int _index;
-    public UnityEvent<bool,int>objectSelected;
+    public UnityEvent<bool,int>objectSelected = new UnityEvent<bool, int>();
     private bool _selected;
     
     public void ConnectVisuals(string text,int index)
