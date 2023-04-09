@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(BoxCollider2D))]
-public class Candidate : MonoBehaviour
+public class Candidate : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
 {
     public UnityEvent<Candidate>candidateClicked;
+    public UnityEvent<bool>candidateHovered = new UnityEvent<bool>();
     public CandidateStats candidateStats;
     
     private void Awake() 
@@ -54,4 +56,13 @@ public class Candidate : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        candidateHovered?.Invoke(true);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        candidateHovered?.Invoke(false);
+    }
 }

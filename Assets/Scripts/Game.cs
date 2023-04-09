@@ -27,6 +27,9 @@ public class Game : MonoBehaviour
     private int _points = 0;
     public UnityEvent candidateChanged = new UnityEvent();
     private string _positionName;
+    private bool _askMode;
+    public bool candidateHovered;
+    private IRequirement _askedReauirement;
     private List<string>_positionNames = new List<string>
     {
         "Повар","Слесарь","Автомеханик","Врач","Эксперт на программу мужское-женское","Пекарь","Велосипедист","Курьер","Водитель",
@@ -44,13 +47,23 @@ public class Game : MonoBehaviour
             _candidats[i].GenerateVisuals(_bodyParts, obj.transform);
             _candidats[i].candidateClicked.AddListener((Candidate candidate)=>
             {
-                if (_selectedRequirementIndex<0)
-                    return;
-                _candidats[_currentCandidat].candidateStats.patience-=1;
-                IRequirement currentRequirement = _requirements[_selectedRequirementIndex];
-                string stringForNote = currentRequirement.GetResumeLine(_candidats[_currentCandidat].candidateStats.GetLiedStats(_requirements));
-                _note.AddNote(stringForNote,_requirements[_selectedRequirementIndex]);
+                if (!_askMode)
+                {
+                    if (_selectedRequirementIndex<0)
+                        return;
+                    _candidats[_currentCandidat].candidateStats.patience-=1;
+                    IRequirement currentRequirement = _requirements[_selectedRequirementIndex];
+                    string stringForNote = currentRequirement.GetResumeLine(_candidats[_currentCandidat].candidateStats.GetLiedStats(_requirements));
+                    _note.AddNote(stringForNote,_requirements[_selectedRequirementIndex]);
+                }else
+                {
+                    if (_askedReauirement!=null)
+                    {
+                        
+                    }
+                }
             });
+            _candidats[i].candidateHovered.AddListener(OnCandidateHovered);
             _candidats[i].gameObject.SetActive(false);
 
         }
@@ -154,8 +167,25 @@ public class Game : MonoBehaviour
         }
         NextCandidate();
     }
-    public void OnCandidateAskedAbout(IRequirement requirement)
+    public void OnAskMode(IRequirement requirement)
     {
-
+        _askMode = true;
+        _askedReauirement = requirement;
+    }
+    public void ExitAskMode()
+    {
+        _askMode =false;
+        _askedReauirement = null;
+    }
+    public void OnCandidateHovered(bool hovered)
+    {
+        candidateHovered = hovered;
+    }
+    public void OnPlayerClicked(int mouseButton)
+    {
+        if (_askMode&&!candidateHovered)
+        {
+            ExitAskMode();
+        }
     }
 }

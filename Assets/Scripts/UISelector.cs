@@ -14,6 +14,7 @@ public class UISelector : MonoBehaviour,IPointerClickHandler
     public int index;
     public UnityEvent<bool,int>objectSelected = new UnityEvent<bool, int>();
     public UnityEvent<int> rightClicked = new UnityEvent<int>();
+    public UnityEvent middleClicked = new UnityEvent();
     public bool selected;
     
     public void ConnectVisuals(string text,int index)
@@ -40,6 +41,10 @@ public class UISelector : MonoBehaviour,IPointerClickHandler
         if (eventData.button == PointerEventData.InputButton.Right)
         {
             rightClicked?.Invoke(index);
+        }
+        if (eventData.button == PointerEventData.InputButton.Middle)
+        {
+            middleClicked?.Invoke();
         }
     }
 }

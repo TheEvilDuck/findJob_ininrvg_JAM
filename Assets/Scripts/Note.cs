@@ -44,6 +44,10 @@ public class Note : MonoBehaviour
                 noteLines[i].line.index = i;
             }
         });
+        noteLine.line.middleClicked.AddListener(()=>
+        {
+            _game.OnAskMode(noteLine.requirement);
+        });
     }
     private void ClearNote()
     {
