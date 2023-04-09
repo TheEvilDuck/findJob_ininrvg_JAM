@@ -41,6 +41,7 @@ public struct CandidateStats
     }
     public bool WillProvideAResume()
     {
+        return true;
         float chance = 1f;
         chance*=(1f-chanceToForget);
         if (iq<50)

@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 8c173201b22f6f046be757dbb80f3c94, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -236,9 +236,17 @@ MonoBehaviour:
   _selectedVisuals: {fileID: 426525883351077504}
   _text: {fileID: 2322997636705097778}
   _button: {fileID: 1607119987910712934}
+  index: 0
   objectSelected:
     m_PersistentCalls:
       m_Calls: []
+  rightClicked:
+    m_PersistentCalls:
+      m_Calls: []
+  middleClicked:
+    m_PersistentCalls:
+      m_Calls: []
+  selected: 0
 --- !u!1 &5512582419185574404
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,14 +340,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 24
   m_fontSizeBase: 24
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 9.47
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0

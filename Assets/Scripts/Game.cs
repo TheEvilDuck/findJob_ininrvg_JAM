@@ -89,6 +89,7 @@ public class Game : MonoBehaviour
     }
     private void GameOver()
     {
+        PlayerPrefs.SetInt("Points",_points);
         GetComponent<SceneLoader>().LoadScene();
     }
     private void CurrentCandidateInit()
