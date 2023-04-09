@@ -968,6 +968,7 @@ MonoBehaviour:
     eyes:
     - {fileID: 5816868735589877516, guid: 4c996925318450a40b5f4c3cb83ed4c4, type: 3}
   _visuals: {fileID: 310295467}
+  _note: {fileID: 716661750}
   candidateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2214,7 +2215,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 967096677}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.4123419
+  m_Size: 0.42202643
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

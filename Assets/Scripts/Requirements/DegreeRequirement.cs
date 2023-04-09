@@ -28,6 +28,8 @@ public class DegreeRequirement : IRequirement
     };
     public bool CompareRequirement(CandidateStats candidateStats)
     {
+        if (candidateStats.degrees==null)
+            return false;
         foreach (Degree degree in candidateStats.degrees)
         {
             if (degree.degreeName==_degree.degreeName&&
@@ -52,6 +54,10 @@ public class DegreeRequirement : IRequirement
         CandidateStats goalStats = CandidateStats.DeepCopy(current);
         Degree degree = _degree;
         degree.ownerName = goalStats.name;
+        if (goalStats.requirements==null)
+            goalStats.requirements = new List<IRequirement>();
+        if (goalStats.degrees==null)
+            goalStats.degrees = new List<Degree>();
         goalStats.degrees.Add(degree);
         DegreeRequirement degreeRequirement = new DegreeRequirement(degree);
         goalStats.requirements.Add(degreeRequirement);

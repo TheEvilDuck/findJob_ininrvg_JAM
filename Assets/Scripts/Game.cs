@@ -19,13 +19,13 @@ public class Game : MonoBehaviour
     [SerializeField]int _candidatsCount = 3;
     [SerializeField]BodyParts _bodyParts;
     [SerializeField]Visuals _visuals;
+    [SerializeField]Note _note;
     private Candidate[] _candidats;
     private List<IRequirement>_requirements = new List<IRequirement>();
     private int _selectedRequirementIndex = -1;
     private int _currentCandidat = 0;
     private int _points = 0;
     public UnityEvent candidateChanged = new UnityEvent();
-    private IRequirement _noteRequirement;
     private string _positionName;
     private List<string>_positionNames = new List<string>
     {
@@ -46,8 +46,8 @@ public class Game : MonoBehaviour
             {
                 if (_selectedRequirementIndex<0)
                     return;
-                bool requirementPassed = _requirements[_selectedRequirementIndex].CompareRequirement(candidate.candidateStats.GetLiedStats(_requirements));
-                Debug.Log($"{_requirements[_selectedRequirementIndex].ConvertToString()}: {requirementPassed}");
+                _candidats[_currentCandidat].candidateStats.patience-=1;
+                _note.AddNote(_requirements[_selectedRequirementIndex].ConvertToString(),_requirements[_selectedRequirementIndex]);
             });
             _candidats[i].gameObject.SetActive(false);
 
@@ -101,16 +101,25 @@ public class Game : MonoBehaviour
     {
         foreach (IRequirement requirement in _requirements)
         {
-            bool requirementPassed = requirement.CompareRequirement(_candidats[_currentCandidat].candidateStats);
-            if (requirementPassed)
+            bool found = false;
+            foreach (NoteLine noteLine in _note.noteLines)
             {
-                _points+=_pointsPerRequirementPass;
-                Debug.Log($"Проверяем на соответствие {requirement.ConvertToString()}, у кандидата {requirementPassed}, поэтому +{_pointsPerRequirementPass}");
+                CandidateStats goal = CandidateStats.GetBlankStats();
+                goal = noteLine.requirement.GetIdealCandidateStats(goal);
+                bool passed = requirement.CompareRequirement(goal);
+                if (passed)
+                {
+                    found = true;
+                    if (requirement.CompareRequirement(_candidats[_currentCandidat].candidateStats)&&noteLine.selected)
+                        _points+=_pointsPerRequirementMiss;
+                    else
+                        _points-=_pointsPerRequirementPass;
+                    break;
+                }
             }
-            else
+            if (!found)
             {
                 _points-=_pointsPerRequirementMiss;
-                Debug.Log($"Проверяем на соответствие {requirement.ConvertToString()}, у кандидата {requirementPassed}, поэтому -{_pointsPerRequirementMiss}");
             }
         }
         NextCandidate();
@@ -120,20 +129,28 @@ public class Game : MonoBehaviour
         _points-=_pointsForCalcelingCandidate;
         foreach (IRequirement requirement in _requirements)
         {
-            bool requirementPassed = requirement.CompareRequirement(_candidats[_currentCandidat].candidateStats);
-            if (requirementPassed)
-                _points-=_pointsPerRequirementPass;
-            else
-                _points+=_pointsPerRequirementMiss;
+            bool found = false;
+            foreach (NoteLine noteLine in _note.noteLines)
+            {
+                CandidateStats goal = CandidateStats.GetBlankStats();
+                goal = noteLine.requirement.GetIdealCandidateStats(goal);
+                bool passed = requirement.CompareRequirement(goal);
+                if (passed)
+                {
+                    found = true;
+                    if (requirement.CompareRequirement(_candidats[_currentCandidat].candidateStats)&&noteLine.selected)
+                        _points-=_pointsPerRequirementPass;
+                    else
+                        _points+=_pointsPerRequirementMiss;
+                    break;
+                }
+            }
+            if (!found)
+            {
+                _points-=_pointsPerRequirementMiss;
+            }
         }
         NextCandidate();
-    }
-    public void OnNoteSelected(bool selected,IRequirement requirement)
-    {
-        if (selected)
-            _noteRequirement = requirement;
-        else
-            _noteRequirement = null;
     }
     public void OnCandidateAskedAbout(IRequirement requirement)
     {

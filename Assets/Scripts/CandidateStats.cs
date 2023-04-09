@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.Events;
 
 
 [System.Serializable]
@@ -15,6 +16,7 @@ public struct CandidateStats
     public float chanceToLie;
     public float chanceToForget;
     public  List<IRequirement> requirements;
+    public int patience;
 
     public List<Degree>degrees;
 
@@ -29,6 +31,13 @@ public struct CandidateStats
 
             return t;
         }
+    }
+    public static CandidateStats GetBlankStats()
+    {
+        CandidateStats candidateStats = new CandidateStats();
+        candidateStats.requirements = new List<IRequirement>();
+        candidateStats.degrees = new List<Degree>();
+        return candidateStats;
     }
     public bool WillProvideAResume()
     {

@@ -3,14 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public class NoteLine
+{
+    public IRequirement requirement;
+    public UISelector line;
+    public bool selected;
+}
 public class Note : MonoBehaviour
 {
     [SerializeField]Button _noteButton;
     [SerializeField]Transform _content;
     [SerializeField]UISelector _notePrefab;
     [SerializeField]Game _game;
-    private List<IRequirement>_requirementsNotes = new List<IRequirement>();
-    private List<UISelector>_notes = new List<UISelector>();
+    
+    public List<NoteLine>noteLines = new List<NoteLine>();
 
     public void Disable()
     {
@@ -26,28 +32,29 @@ public class Note : MonoBehaviour
     }
     public void AddNote(string text, IRequirement requirement)
     {
+        NoteLine noteLine = new NoteLine();
         UISelector button = Instantiate(_notePrefab,_content);
-        _requirementsNotes.Add(requirement);
-        button.ConnectVisuals(text,_requirementsNotes.Count-1);
-        button.objectSelected.AddListener(OnObjectSelected);
-        _notes.Add(button);
+        noteLine.line = button;
+        noteLine.requirement = requirement;
+        noteLines.Add(noteLine);
+        noteLine.line.ConnectVisuals(text,noteLines.Count-1);
+        noteLine.line.objectSelected.AddListener(OnObjectSelected);
     }
     private void ClearNote()
     {
-        foreach (UISelector note in _notes)
+        Debug.Log("Clear note");
+        foreach (NoteLine noteLine in noteLines)
         {
-            note.objectSelected.RemoveAllListeners();
-            Destroy(note.gameObject);
+            noteLine.line.objectSelected.RemoveAllListeners();
+            Destroy(noteLine.line.gameObject);
         }
-        _notes.Clear();
-        _requirementsNotes.Clear();
+        noteLines.Clear();
     }
     public void OnObjectSelected(bool selected,int index)
     {
-        if (index>=_requirementsNotes.Count)
+        if (index>=noteLines.Count)
             return;
-        IRequirement requirement = _requirementsNotes[index];
-        _game.OnNoteSelected(selected,requirement);
+        noteLines[index].selected = selected;
     }
     public void OnCandidateChanged()
     {

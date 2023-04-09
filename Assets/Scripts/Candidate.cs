@@ -33,6 +33,7 @@ public class Candidate : MonoBehaviour
         candidateStats.chanceToLie = UnityEngine.Random.Range(0,1f);
         candidateStats.iq = UnityEngine.Random.Range(2,300);
         candidateStats.name = SexRequirement.GenerateName(candidateStats.isMale);
+        candidateStats.patience = UnityEngine.Random.Range(2,10);
         float degreeChance = UnityEngine.Random.Range(0,1f);
         candidateStats.degrees = new List<Degree>();
         if (degreeChance>=0.5f)

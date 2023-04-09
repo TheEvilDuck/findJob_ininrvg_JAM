@@ -34,6 +34,8 @@ public class SoftSkillsRequirement : IRequirement
     public CandidateStats GetIdealCandidateStats(CandidateStats current)
     {
         CandidateStats goalStats = CandidateStats.DeepCopy(current);
+        if (goalStats.requirements==null)
+            goalStats.requirements = new List<IRequirement>();
         goalStats.requirements.Add(this);
         return goalStats;
     }
