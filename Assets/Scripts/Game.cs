@@ -99,6 +99,7 @@ public class Game : MonoBehaviour
             else
                 _points-=_pointsPerRequirementMiss;
         }
+        Debug.Log($"У кандидата было {_candidats[_currentCandidat].candidateStats.requirements.Count} требований");
         NextCandidate();
     }
     public void CandidateCanceled()
