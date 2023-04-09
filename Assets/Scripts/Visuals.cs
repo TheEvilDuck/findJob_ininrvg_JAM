@@ -14,16 +14,32 @@ public class Visuals : MonoBehaviour
     [SerializeField]Transform _inventory;
     [SerializeField]GameObject _resumeButton;
     [SerializeField]TextMeshProUGUI _pointsText;
+    private List<UISelector>uISelectors = new List<UISelector>();
 
     public UnityEvent<bool,int> CreateSelector(IRequirement requirement, int index)
     {
         UISelector selector = Instantiate(_selectorPrefab,_requirementsLayout);
+        uISelectors.Add(selector);
         selector.ConnectVisuals(requirement.ConvertToString(),index);
+        selector.objectSelected.AddListener((bool selected,int index)=>
+        {
+            if (!selected)
+                return;
+            foreach (UISelector uISelector in uISelectors)
+            {
+                if (uISelector.index!=index)
+                    uISelector.ForceState(false);
+            }
+        });
         return selector.objectSelected;
     }
     public void SetResumeVisibility(bool value)
     {
         _resumeButton.SetActive(value);
+        if (!value)
+        {
+            _resume.Enable(value);
+        }
     }
     public void UpdateResume(CandidateStats candidateStats,string positionName)
     {

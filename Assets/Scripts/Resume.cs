@@ -13,10 +13,11 @@ public class ResumeLines
 }
 public class Resume : MonoBehaviour
 {
-    [SerializeField]Button _resumeButton;
     [SerializeField]TMP_InputField _inputField;
     [SerializeField]Note _note;
     [SerializeField]Game _game;
+    private bool _isHide = true;
+    private Vector3 _position;
     //[SerializeField]TextAsset _beginAgeLines;
     //private ResumeLines resumeLines;
     private Dictionary<string,IRequirement>_resumeRequirements = new Dictionary<string, IRequirement>();
@@ -39,17 +40,26 @@ public class Resume : MonoBehaviour
 
         }
     }
-    private void OnEnable() 
-    {
-        _resumeButton.onClick.AddListener(Disable);
+    private void OnEnable() {
+        _position = transform.position;
+        HideOrShow();
     }
-    private void OnDisable() 
+    private void HideOrShow()
     {
-        _resumeButton.onClick.RemoveListener(Disable);
+        if (_isHide)
+            transform.position = new Vector3(1000,1000,1000);
+        else
+            transform.position = _position;
     }
-    private void Disable()
+    public void Enable()
     {
-        gameObject.SetActive(false);
+        _isHide = !_isHide;
+        HideOrShow();
+    }
+    public void Enable(bool value)
+    {
+        _isHide = value;
+        HideOrShow();
     }
 
     public void OnTextSelected(string text)
